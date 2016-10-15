@@ -1,3 +1,9 @@
+clear;
+
+% Collect data
+U_loop = importdata('data/loop_voltage_22440.xls');
+
+
 % Constants
 Q = 1.6 * 10^-19;
 deltaT = 10^-6;
@@ -66,16 +72,20 @@ subplot(2, 2, 4)
 plot(U_loop(U_loopPeakStartIndex:U_loopPeakEndIndex, 1), E)
 title('Energy of electrons')
 
+
 % Velocity check
-BN = 100;
+BN = 10000;
 v = 1:BN;
-u_n=0
-v(1)=0
+u_n = 0;
+v(1) = 0;
 for i = 2:BN
     Etilda = (Q * deltaT * 5) / m0;
-    u_n = v(i-1) / sqrt(1 - (v(i-1)/c)^2 )
+    u_n = v(i-1) / sqrt(1 - (v(i-1)/c)^2);
     
-     u_n =u_n + Etilda 
-     v(i)=u_n/sqrt(1+(u_n/c)^2)
+     u_n =u_n + Etilda;
+     v(i)=u_n/sqrt(1+(u_n/c)^2);
 end
-v(BN - 1)
+
+disp(['If ', num2str(v(BN - 1)) ,'~299792458 algorithm is ok'])
+
+
