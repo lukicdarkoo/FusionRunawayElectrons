@@ -1,4 +1,4 @@
-function [pks,locs] = findpeaks(X,varargin)
+function [pks,locs] = findpeaks(X, MinPeakHeight, MinPeakDistance, Threshold, NPeaks, SortStr)
 %FINDPEAKS Find local peaks in data
 %   PKS = FINDPEAKS(X) finds local peaks in the data vector X.
 %
@@ -37,19 +37,11 @@ function [pks,locs] = findpeaks(X,varargin)
 %   Copyright 2007-2009 The MathWorks, Inc.
 %   $Revision: 1.1.6.10 $  $Date: 2009/10/16 06:41:09 $
 
-error(nargchk(1,11,nargin,'struct'));
-
-validateattributes(X,{'numeric'},{'nonempty','real','vector'},...
-    'findpeaks','X');
-
-%#function dspopts.findpeaks
-hopts = uddpvparse('dspopts.findpeaks',varargin{:});
-
-Ph  = hopts.MinPeakHeight;
-Pd  = hopts.MinPeakDistance;
-Th  = hopts.Threshold;
-Np  = hopts.NPeaks;
-Str = hopts.SortStr;
+Ph  = MinPeakHeight;
+Pd  = MinPeakDistance;
+Th  = Threshold;
+Np  = NPeaks;
+Str = SortStr;
 
 pks = [];
 locs = [];
@@ -100,7 +92,7 @@ if(isempty(Pd))
     Pd = 1;
 end
 
-if(isempty(Np))
+if(Np == 0)
     Np = L;
 end
 

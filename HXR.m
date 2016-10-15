@@ -1,25 +1,28 @@
 % Density scan and detection of some Runaways
+clear;
 
 % Tunning values
-hxrSmoothCoef = 2000;
-hxrPeakTreshhold = 0.01;
+hxrMinPeakHeight = 0;
+hxrMinPeakDistance = 5;
+hxrThreshold = 0.004;
+hxrNPeaks = 0;
+hxrSortStr = 'none';
 
-% Find peaks
-files = {'tektronix3014_22452.txt'...
-    'tektronix3014_22477.txt'...
-    'tektronix3014_22479.txt'...
-    'tektronix3014_22472.txt'...
-    'tektronix3014_22481.txt'
+
+% Import data & find peaks
+files = {'data/tektronix3014_22452.txt'...
+    'data/tektronix3014_22477.txt'...
+    'data/tektronix3014_22479.txt'...
+    'data/tektronix3014_22472.txt'...
+    'data/tektronix3014_22481.txt'
     };
 preasures = [19.81, 22.09, 23.64, 26.78, 23.63];
-
-
 
 for i = 1:numel(preasures)
     dektronix = importdata(files{i});
     hxrData = dektronix(:, 5);
     
-    [hxrPeakValue, hxrPeakIndex] = findpeaks(hxrData, 'THRESHOLD', 0.004, 'MINPEAKDISTANCE', 2);
+    [hxrPeakValue, hxrPeakIndex] = findpeaks(hxrData, hxrMinPeakHeight, hxrMinPeakDistance, hxrThreshold, hxrNPeaks, hxrSortStr);
     
     disp(['Preasure: ', num2str(preasures(i)), '; Peaks: ', num2str(numel(hxrPeakIndex))]);
     
